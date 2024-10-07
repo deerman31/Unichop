@@ -1,0 +1,76 @@
+services:
+  backend:
+    container_name: backend
+    image: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        PORT: ${BACKEND_PORT}
+    restart: always
+    # 本番環境では開ける必要がない。開発では、直接リクエストを送れたりするので開けといた方が便利。
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    env_file:
+      - .env
+      - ./backend/.env
+    networks:
+      - app-network
+    
+  frontend:
+    container_name: frontend
+    image: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        PORT: ${FRONTEND_PORT}
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    env_file:
+      - .env
+      - ./frontend/.env
+    networks:
+      - app-network
+  
+  serv:
+    container_name: serv
+    image: serv
+    build:
+      context: ./serv
+      dockerfile: Dockerfile
+      args:
+        PORT: ${SERV_PORT}
+    restart: always
+    ports:
+      - "${SERV_PORT}:${SERV_PORT}"
+    env_file:
+      - .env
+      - ./serv/.env
+    networks:
+      - app-network
+  
+  db:
+    container_name: db
+    image: db
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+      # args:
+      #   PORT: ${DB_PORT}
+    restart: always
+    env_file:
+      - .env
+      - ./db/.env
+    # environment:
+    #   DATABASE_URL: postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:${DATABASE_PORT}/${DATABASE_DB}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    name: ft_sample
+    driver: bridge
