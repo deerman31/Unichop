@@ -1,24 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"github.com/labstack/echo/v4"
-	"net/http"
+	"backendUselessUse/routing"
 	"os"
 )
 
-func main() {
-	e := echo.New()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+
+func main() {
+	router := routing.NewRouter()
 
 	port := os.Getenv("BACKEND_PORT")
 	if port == "" {
-		port = os.Getenv("8000") // デフォルトポート
+		port = "8000" // デフォルトポート
 	}
-
-	fmt.Printf("Server is running on port %s\n", port)
-	e.Logger.Fatal(e.Start(":" + port))
+	router.Logger.Fatal(router.Start(":" + port))
 }

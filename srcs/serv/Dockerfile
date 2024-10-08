@@ -5,8 +5,8 @@ FROM nginx:alpine
 ARG PORT
 ENV PORT=${PORT}
 
-# タイムゾーンを設定（必要に応じて変更）
-ENV TZ=UTC
+# タイムゾーンを日本時間に設定
+ENV TZ=Asia/Tokyo
 
 # 必要なツールをインストール
 RUN apk add --no-cache tzdata openssl
