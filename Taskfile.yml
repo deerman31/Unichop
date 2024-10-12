@@ -69,16 +69,16 @@ tasks:
       - docker volume ls
       - echo -e "{{.COLOR}}Networks{{.RESET}}"
       - docker network ls
-  
+
   fmt:
     cmds:
-     - cd ./srcs/backend/src && go fmt ./...
-     - deno fmt ./srcs/frontend/src
-  
+      - cd ./srcs/backend/api_server && go fmt ./...
+      - cd ./srcs/frontend/my-app && npm run fmt
+
   lint:
     cmds:
-      - cd ./srcs/backend/src && go vet ./...
-      - deno lint --fix ./srcs/frontend/src
+      - cd ./srcs/backend/api_server && go vet ./...
+      - cd ./srcs/frontend/my-app && npm run lint
 
   default:
     cmds:
